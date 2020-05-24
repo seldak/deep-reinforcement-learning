@@ -85,8 +85,27 @@ class Agent():
         """
         states, actions, rewards, next_states, dones = experiences
 
+        print("states =", states.shape)
+        print("actions =", actions.shape)
+        print("rewards =", rewards.shape)
+        print("next_states =",next_states.shape)
+        print("dones =", dones)
         ## TODO: compute and minimize the loss
         "*** YOUR CODE HERE ***"
+        # Get max predicted Q values (for next states) from target model
+        Q_target_next = self.qnetwork_target(next_states).detach().max(1)[0].unsqueeze(1)
+        # Compute Q targets for current states 
+        Q_target = rewards + (gamma * Q_target_next * (1 - dones))
+
+        # Get expected Q values from local model
+        Q_expected = self.qnetwork_local(states).gather(1, actions)
+        
+        loss = F.mse_loss(Q_expected, Q_target)
+        
+        self.optimizer.zero_grad()
+        # Usually, this is where we do network.forward()
+        loss.backward()
+        self.optimizer.step()
 
         # ------------------- update target network ------------------- #
         self.soft_update(self.qnetwork_local, self.qnetwork_target, TAU)                     

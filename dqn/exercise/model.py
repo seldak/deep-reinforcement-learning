@@ -16,7 +16,19 @@ class QNetwork(nn.Module):
         super(QNetwork, self).__init__()
         self.seed = torch.manual_seed(seed)
         "*** YOUR CODE HERE ***"
+        self.fc1_nodes = 64
+        self.fc2_nodes = 64
+        self.fc1 = nn.Linear(state_size, self.fc1_nodes)
+        self.fc2 = nn.Linear(self.fc1_nodes, self.fc2_nodes)
+        self.fc3 = nn.Linear(self.fc2_nodes, action_size)
+        
 
     def forward(self, state):
         """Build a network that maps state -> action values."""
-        pass
+        x = self.fc1(state)
+        x = F.relu(x)
+        x = self.fc2(x)
+        x = F.relu(x)
+        x = self.fc3(x)
+        
+        return x
