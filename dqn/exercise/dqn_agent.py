@@ -85,11 +85,11 @@ class Agent():
         """
         states, actions, rewards, next_states, dones = experiences
 
-        print("states =", states.shape)
-        print("actions =", actions.shape)
-        print("rewards =", rewards.shape)
-        print("next_states =",next_states.shape)
-        print("dones =", dones)
+        #print("states =", states.shape)
+        #print("actions =", actions.shape)
+        #print("rewards =", rewards.shape)
+        #print("next_states =",next_states.shape)
+        #print("dones =", dones)
         ## TODO: compute and minimize the loss
         "*** YOUR CODE HERE ***"
         # Get max predicted Q values (for next states) from target model
